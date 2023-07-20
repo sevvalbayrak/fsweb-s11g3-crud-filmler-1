@@ -1,12 +1,13 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { useHistory, useParams, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+import axios from "axios";
 
 const AddMovieForm = (props) => {
-  const { push } = useHistory();
-  const { id } = useParams();
-
   const { setMovies } = props;
+  const { push } = useHistory();
+
   const [newMovie, setNewMovie] = useState({
     title: "",
     director: "",
@@ -25,7 +26,7 @@ const AddMovieForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`http://localhost:9000/api/movies`, newMovie)
+      .post(`http://localhost:9000/api/movies/`, newMovie)
       .then((res) => {
         setMovies(res.data);
         push(`/movies`);
@@ -34,16 +35,13 @@ const AddMovieForm = (props) => {
         console.log(err);
       });
   };
-
   const { title, director, genre, metascore, description } = newMovie;
 
   return (
-    <div className="bg-white rounded-md shadow flex-1">
+    <div className="bg-white rounded-md shadow flex-1 dark:bg-slate-700 dark:text-white">
       <form onSubmit={handleSubmit}>
         <div className="p-5 pb-3 border-b border-zinc-200">
-          <h4 className="text-xl font-bold">
-            Düzenleniyor <strong>{newMovie.title}</strong>
-          </h4>
+          <h4 className="text-xl font-bold">YENİ FİLM EKLE</h4>
         </div>
 
         <div className="px-5 py-3">
@@ -94,7 +92,7 @@ const AddMovieForm = (props) => {
         </div>
 
         <div className="px-5 py-4 border-t border-zinc-200 flex justify-end gap-2">
-          <Link to={`/movies/${id}`} className="myButton bg-zinc-500">
+          <Link to={`/movies/1`} className="myButton bg-zinc-500">
             Vazgeç
           </Link>
           <button
@@ -108,4 +106,5 @@ const AddMovieForm = (props) => {
     </div>
   );
 };
+
 export default AddMovieForm;
